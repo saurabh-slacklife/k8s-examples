@@ -4,3 +4,5 @@ metadata:
   name: ns-py-proto
   labels:
     app: py-proto
+    type: namespace-py-proto
+    description: namespace-py-proto

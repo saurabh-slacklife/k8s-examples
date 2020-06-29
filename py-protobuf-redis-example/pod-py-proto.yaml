@@ -5,6 +5,8 @@ metadata:
   labels:
     app: py-proto
     purpose: python-redis-integration
+    type: back-end
+    description: access-redis-data
 spec:
   containers:
   - name: py-protobuf-example
