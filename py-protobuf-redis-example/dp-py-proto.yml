@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-py-proto
+  labels:
+    app: dp-py-proto
+    type: back-end
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      type: back-end
+  template:
+    metadata:
+      name: dp-py-example
+      labels:
+        type: back-end
+    spec:
+      containers:
+      - name: py-proto-example
+        image: saurabhsa/py-protobuf-example:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        env:
+          - name: REDIS_HOST
+            valueFrom:
+              secretKeyRef:
+                name: secret-redis
+                key: host
+          - name: REDIS_PORT
+            valueFrom:
+              secretKeyRef:
+                name: secret-redis
+                key: port
+          - name: REDIS_P
+            valueFrom:
+              secretKeyRef:
+                name: secret-redis
+                key: password

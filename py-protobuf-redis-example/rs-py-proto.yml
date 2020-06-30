@@ -25,8 +25,17 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - name: REDIS_HOST
-          value: "redis-16876.c212.ap-south-1-1.ec2.cloud.redislabs.com"
+          valueFrom:
+            secretKeyRef:
+              name: secret-redis
+              key: host
         - name: REDIS_PORT
-          value: "16876"
+          valueFrom:
+            secretKeyRef:
+              name: secret-redis
+              key: port
         - name: REDIS_P
-          value: "dkk1a9fV7alQv5OpCDRQEnoZArahoTzB"
+          valueFrom:
+            secretKeyRef:
+              name: secret-redis
+              key: password
