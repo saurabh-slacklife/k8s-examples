@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-cfg-py-proto
+  labels:
+    app: py-proto
+    purpose: python-redis-integration
+    type: back-end
+    description: access-redis-data
+spec:
+#  securityContext:
+ #   runAsUser: 1000
+  #  runAsGroup: 3000
+  #  fsGroup: 2000
+  containers:
+  - name: py-protobuf-example
+    image: saurabhsa/py-protobuf-example:latest
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 5000
+    env:
+    - name: REDIS_HOST
+      valueFrom:
+        configMapKeyRef:
+          name: redis-config
+          key: redis_host
+    - name: REDIS_PORT
+      valueFrom:
+        configMapKeyRef:
+          name: redis-config
+          key: redis_port
+    - name: REDIS_P
+      valueFrom:
+        configMapKeyRef:
+          name: redis-config
+          key: redis_p

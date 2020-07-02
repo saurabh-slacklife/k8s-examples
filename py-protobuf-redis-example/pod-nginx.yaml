@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx-app
+  name: nginx-app
+spec:
+  containers:
+  - image: nginx
+    name: nginx-app
+    imagePullPolicy: IfNotPresent
+    resources: {}
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: "selector_master"
+            operator: In
+            values:
+            - "true"
+          - key: "selector_size"
+            operator: In
+            values:
+            - "small"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
