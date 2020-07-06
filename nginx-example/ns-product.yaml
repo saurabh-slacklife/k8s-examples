@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: product-be
+  labels:
+    type: backend
+    entity: product
+    group: product
+    subgroup: product
+spec: {}
+status: {}
