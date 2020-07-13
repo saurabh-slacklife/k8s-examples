@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: redis-config
-data:
-  redis_host: "redis-16876.c212.ap-south-1-1.ec2.cloud.redislabs.com"
-  redis_p: "dkk1a9fV7alQv5OpCDRQEnoZArahoTzB"
-  redis_port: "16876"

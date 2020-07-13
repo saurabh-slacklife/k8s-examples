@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: py-proto
+    repository: saurabhsa
+    image: py-protobuf-example
+    type: backend
+  name: py-proto
+  namespace: py-proto
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: py-proto
+      repository: saurabhsa
+      image: py-protobuf-example
+      type: backend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: py-proto
+        image: py-protobuf-example
+        repository: saurabhsa
+        type: backend
+    spec:
+      containers:
+      - image: saurabhsa/py-protobuf-example:latest
+        name: py-protobuf-example
+        imagePullPolicy: IfNotPresent
+        resources: {}
+        ports:
+        - containerPort: 5000
+          name: app-port
+        envFrom:
+        - configMapRef:
+            name: cfg-py-proto 
+        livenessProbe:
+          httpGet:
+            path: /health/
+            port: app-port 
+            scheme: HTTP
+          periodSeconds: 10
+          initialDelaySeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health/
+            port: app-port
+            scheme: HTTP
+          timeoutSeconds: 5
+status: {}

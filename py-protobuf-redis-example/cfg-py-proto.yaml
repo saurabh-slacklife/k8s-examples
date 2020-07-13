@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cfg-py-proto
+  namespace: py-proto
+data:
+  redis_host: redis-cloud.redislabs.com
+  redis_port: "16876"
+  redis_p: dkk1a9fV7oZArahoTzB
