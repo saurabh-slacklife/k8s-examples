@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-claim-py-proto
+  labels:
+    tier: backend
+    type: API
+    sub-type: REST
+    environment: development
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10M
+  selector:
+    matchLabels:
+      sub-type: "REST"
+      environment: "development"

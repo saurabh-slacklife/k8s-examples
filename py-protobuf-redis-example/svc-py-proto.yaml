@@ -3,18 +3,24 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: svc-py-proto
-    type: backend
+    app: svc-py-protobuf-rest-api
+    tier: backend
+    type: API
+    sub-type: REST
+    environment: development
   name: svc-py-proto
-  namespace: py-proto
+#  namespace: py-proto
 spec:
   ports:
   - port: 80
     protocol: TCP
     targetPort: 5000
   selector:
-    image: py-protobuf-example
-    type: backend
+    app: py-protobuf-rest-api
+    tier: backend
+    type: API
+    sub-type: REST
+    environment: development
   type: NodePort
 status:
   loadBalancer: {}

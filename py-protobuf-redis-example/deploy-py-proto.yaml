@@ -3,33 +3,48 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: py-proto
-    repository: saurabhsa
-    image: py-protobuf-example
-    type: backend
+    app: deploy-py-protobuf-rest-api
+    docker-repository: saurabhsa
+    tier: backend
+    type: API
+    sub-type: REST
+    environment: development
   name: py-proto
-  namespace: py-proto
+#  namespace: py-proto
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: py-proto
-      repository: saurabhsa
-      image: py-protobuf-example
-      type: backend
-  strategy: {}
+      app: py-protobuf-rest-api
+      tier: backend
+      type: API
+      sub-type: REST
+      environment: development
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: py-proto
+        app: py-protobuf-rest-api
+        tier: backend
+        type: API
+        sub-type: REST
+        environment: development
         image: py-protobuf-example
-        repository: saurabhsa
-        type: backend
     spec:
+     # nodeName: minikube
+    #  nodeSelector:
+     #   name: saurabh
+      volumes:
+        - name: py-proto-volume
+          persistentVolumeClaim:
+            claimName: volume-claim-py-proto 
       containers:
-      - image: saurabhsa/py-protobuf-example:latest
-        name: py-protobuf-example
+      - name: py-protobuf-example
+        image: saurabhsa/py-protobuf-example:latest
         imagePullPolicy: IfNotPresent
         resources: {}
         ports:
@@ -38,19 +53,32 @@ spec:
         envFrom:
         - configMapRef:
             name: cfg-py-proto 
+        resources:
+          limits:
+            memory: 100M
+            cpu: 0.1
+          requests:
+            memory: 100M
+            cpu: 0.1
+        volumeMounts:
+          - mountPath: "/var/log/proto/"
+            name: py-proto-volume
         livenessProbe:
           httpGet:
             path: /health/
             port: app-port 
             scheme: HTTP
           periodSeconds: 10
-          initialDelaySeconds: 10
+          initialDelaySeconds: 45
           successThreshold: 1
-          timeoutSeconds: 5
+          timeoutSeconds: 10
         readinessProbe:
           httpGet:
-            path: /health/
+            path: /health/datastore/
             port: app-port
             scheme: HTTP
-          timeoutSeconds: 5
+          timeoutSeconds: 10
+          initialDelaySeconds: 10
+          failureThreshold: 2
+          periodSeconds: 10
 status: {}
