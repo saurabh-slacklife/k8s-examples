@@ -38,6 +38,29 @@ spec:
      # nodeName: minikube
     #  nodeSelector:
      #   name: saurabh
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: sub-type
+                operator: In
+                values:
+                - REST
+              - key: system
+                operator: In
+                values:
+                - mac
+              - key: selector_size
+                operator: NotIn
+                values: ["big", "large", "fat"]
+#                - big
+#                - large
+#                - fat
+              - key: selector_size
+                operator: In
+                values:
+                - small 
       volumes:
         - name: py-proto-volume
           persistentVolumeClaim:
