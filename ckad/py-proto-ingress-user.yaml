@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: py-proto-user
+  name: py-proto-user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "py-proto"
+      backend-service: "yes"
+      ingress-user-allowed: "no" 
+      ingress-health-allowed: "yes" 
+      egress-redis-allowed: "yes"
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: "py-proto"
+        backend-service: "yes"
+        ingress-user-allowed: "no" 
+        ingress-health-allowed: "yes" 
+        egress-redis-allowed: "yes"
+    spec:
+      containers:
+      - image: saurabhsa/py-protobuf-example:latest
+        name: py-protobuf-user
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: py-user-port
+          containerPort: 5000
+        env:
+          - name: REDIS_HOST
+            valueFrom:
+             configMapKeyRef:
+              name: redis-config
+              key: REDIS_HOST
+          - name: REDIS_PORT
+            valueFrom:
+             configMapKeyRef:
+              name: redis-config
+              key: REDIS_PORT
+          - name: REDIS_P
+            valueFrom:
+             configMapKeyRef:
+              name: redis-config
+              key: REDIS_P
+        resources: {}
+status: {}

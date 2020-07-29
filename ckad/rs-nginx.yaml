@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: backend
+  labels:
+    tier: backend
+spec:
+  # modify replicas according to your case
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-pod
+      type: proxy-server
+  template:
+    metadata:
+      labels:
+        app: nginx-pod
+        type: proxy-server
+    spec:
+      containers:
+      - name: rs-nginx-pod
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          name: http-80
+          protocol: TCP
+        - containerPort: 443
+          name: http-443
+          protocol: TCP

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx
+spec:
+  replicas: 3
+  selector:
+    app: nginx-pod
+    type: proxy-server
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx-pod
+        type: proxy-server
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          name: http-80
+          protocol: TCP
+        - containerPort: 443 
+          name: http-443
+          protocol: TCP

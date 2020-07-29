@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx-pod
+    type: proxy-server
+  name: nginx-pod
+spec:
+  containers:
+  - image: nginx
+    name: nginx-pod
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 80
+      name: http-80
+      protocol: TCP
+    - containerPort: 443
+      name: http-443
+      protocol: TCP
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
